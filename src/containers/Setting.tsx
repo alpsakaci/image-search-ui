@@ -118,8 +118,7 @@ const Setting = (props: any) => {
         alignItems: "center",
       },
       benchImage: {
-        width: "400px",
-        height: "250px",
+        width: "300px",
         position: "relative",
       },
       dropzoneContainer: {
@@ -166,7 +165,7 @@ const Setting = (props: any) => {
     },
     false
   );
-  
+
   const _search = ({ topK, image }: any) => {
     const fd = new FormData();
     fd.set("topk", topK);
