@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import QueryProvider from "./contexts/QueryContext";
+import Setting from "./containers/Setting";
+import SearchResults from "./components/SearchResults";
 
-function App() {
+const App: React.FC = () => {
+  const isMobile = !useMediaQuery("(min-width:1000px)");
+  const useStyles = makeStyles(() => {
+    return createStyles({
+      root: {
+        flexGrow: 1,
+        display: isMobile ? "block" : "flex",
+        overflow: isMobile ? "visible" : "hidden",
+      },
+    });
+  });
+  const classes = useStyles({});
+  const [images, setImages]: any = useState([]);
+  const [loading, setLoading]: any = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryProvider>
+      <div className={classes.root}>
+        <Setting setImages={setImages} setLoading={setLoading} />
+        <SearchResults images={images} />
+        {loading && (
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              left: "0",
+              top: "0",
+              backgroundColor: "#000",
+              opacity: 0.5,
+            }}
+          ></div>
+        )}
+      </div>
+    </QueryProvider>
   );
-}
+};
 
 export default App;
